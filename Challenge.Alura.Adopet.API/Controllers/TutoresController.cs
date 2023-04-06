@@ -42,6 +42,7 @@ namespace Challenge.Alura.Adopet.API.Controllers
 
             return _tutor;
         }
+
         [HttpPost]
         public async Task<ActionResult<Tutor>> PostTutor(Tutor tutor)
         {
@@ -58,6 +59,57 @@ namespace Challenge.Alura.Adopet.API.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Tutor>> DeleteTutor(int id)
+        { 
+            var _tutor = await this._context.Tutores.FirstOrDefaultAsync(a => a.Id == id);
+            if(_tutor is null)
+            {
+                return this.NotFound("Tutor não encontrado na base de dados.");
+            }
+            try
+            {
+                this._context.Tutores.Remove(_tutor);
+                await this._context.SaveChangesAsync(); 
 
+            }
+            catch (Exception ex) {return BadRequest(ex.Message);}   
+            return Ok(_tutor);        
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Tutor>> PutTutor(int id,Tutor tutor)
+        {
+            var _tutor = await this._context.Tutores.FirstOrDefaultAsync(a => a.Id == id);
+            if (_tutor is null)
+            {
+                return this.NotFound("Tutor não encontrado na base de dados para atualização.");
+            }
+
+            try
+            {
+                //Coloco o objeto recuperado em modo de `modificação`.
+                _context.Entry(_tutor).State = EntityState.Modified;
+                
+                // Atualizo os campos do objeto com as novas informações.
+                _tutor.Nome= tutor.Nome;
+                _tutor.Email= tutor.Email;
+                _tutor.Senha= tutor.Senha;
+                _tutor.Imagem= tutor.Imagem;   
+                _tutor.NomeDoAnimal= tutor.NomeDoAnimal;
+
+                //Atualizo o objeto no contexto.
+                this._context.Tutores.Update(_tutor);
+
+                //Salvo as alterações.
+                await this._context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message); 
+            }
+            return Ok(_tutor);
+        }
     }
 }
