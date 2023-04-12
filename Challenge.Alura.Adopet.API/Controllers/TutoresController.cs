@@ -3,6 +3,7 @@ using Challenge.Alura.Adopet.API.Data;
 using Challenge.Alura.Adopet.API.Dominio;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Challenge.Alura.Adopet.API.Controllers
 {
@@ -110,6 +111,25 @@ namespace Challenge.Alura.Adopet.API.Controllers
                 return BadRequest(ex.Message); 
             }
             return Ok(_tutor);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Tutor>> PatchTutor(int id, JsonPatchDocument<Tutor> patch)
+        {
+            var _tutor = await this._context.Tutores.FirstOrDefaultAsync(a => a.Id == id);
+            if (_tutor is null)
+            {
+                return this.NotFound("Tutor não encontrado na base de dados para atualização.");
+            }
+
+            patch.ApplyTo(_tutor, ModelState);
+            if (!TryValidateModel(_tutor))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _context.SaveChanges();
+            return Ok(_tutor);
+
         }
     }
 }
