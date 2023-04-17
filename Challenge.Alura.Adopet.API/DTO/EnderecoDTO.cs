@@ -16,8 +16,6 @@ namespace Challenge.Alura.Adopet.API.DTO
         [Required(ErrorMessage = "O nome do estado é obrigatório")]
         public string? Estado { get; set; }
         [JsonIgnore]
-        public int AbrigoId { get; set; }
-        [JsonIgnore]
         public AbrigoDTO? Abrigo { get; set; }
     }
 }

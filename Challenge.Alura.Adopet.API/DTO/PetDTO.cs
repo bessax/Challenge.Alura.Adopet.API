@@ -15,6 +15,9 @@ namespace Challenge.Alura.Adopet.API.DTO
         [Required(ErrorMessage = "O Id do Tutor é obrigatório")]
         public int TutorId { get; set; }
         [JsonIgnore]
-        public virtual TutorDTO? Tutor { get; set; }
+        public TutorDTO? Tutor { get; set; }    
+        public int AbrigoId { get; set; }
+        [JsonIgnore]
+        public AbrigoDTO? Abrigo { get; set; }
     }
 }
