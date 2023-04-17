@@ -11,6 +11,9 @@ namespace Challenge.Alura.Adopet.API.Data
 
         }
         public DbSet<Tutor> Tutores { get; set; }
+        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Abrigo> Abrigos { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -6,15 +6,12 @@ namespace Challenge.Alura.Adopet.API.Dominio
     {
       
         [Key]
-        public int Id { get; set; }
-        [Required(ErrorMessage = "O Nome é obrigatório")]
-        public string? Nome { get; set; }
-        [Required(ErrorMessage = "O Email é obrigatório")]
-        public string? Email { get; set; }
-        [Required(ErrorMessage = "O Senha é obrigatório")]
-        public string? Senha { get; set; }
-        [Required(ErrorMessage = "O nome do animal é obrigatório")]
+        public int Id { get; set; }        
+        public string? Nome { get; set; }       
+        public string? Email { get; set; }      
+        public string? Senha { get; set; }        
         public string? NomeDoAnimal { get; set; }
         public string? Imagem { get; set; }
+        public ICollection<Pet>? Pets { get; set; }
     }
 }

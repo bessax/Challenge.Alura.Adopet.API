@@ -10,8 +10,8 @@ builder.Services.AddDbContext<AdoPetContext>(options =>
     options.UseSqlServer("Name=AdopetAPI");
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AdoPetContext>();
-
 builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
