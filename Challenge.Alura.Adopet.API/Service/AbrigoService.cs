@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Alura.AdoAbrigo.API.Service
 {
-    public class AbrigoService : IService<AbrigoDTO>
+    public class AbrigoService : IAbrigoService
     {
         private readonly IRepository<Abrigo> repository;
         private readonly IMapper mapper;

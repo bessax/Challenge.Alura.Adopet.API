@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Alura.Adopet.API.Service
 {
-    public class TutorService : IService<TutorDTO>
+    public class TutorService : ITutorService
     {
         private readonly IRepository<Tutor> repository;
         private readonly IMapper mapper;

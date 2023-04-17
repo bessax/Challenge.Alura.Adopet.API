@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Alura.AdoEndereco.API.Service
 {
-    public class EnderecoService : IService<EnderecoDTO>
+    public class EnderecoService : IEnderecoService
     {
         private readonly IRepository<Endereco> repository;
         private readonly IMapper mapper;

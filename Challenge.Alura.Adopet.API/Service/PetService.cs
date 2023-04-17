@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Alura.Adopet.API.Service
 {
-    public class PetService : IService<PetDTO>
+    public class PetService : IPetService
     {
         private readonly IRepository<Pet> repository;
         private readonly IMapper mapper;
