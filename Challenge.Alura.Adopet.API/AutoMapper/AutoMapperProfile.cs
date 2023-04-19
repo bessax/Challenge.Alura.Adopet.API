@@ -8,7 +8,7 @@ namespace Challenge.Alura.Adopet.API.AutoMapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Tutor,TutorDTO>();
+            CreateMap<Tutor,TutorDTO>().ForMember(x=>x.Senha,x=>x.Ignore());
             CreateMap<Pet, PetDTO>()
                 .ForMember(a => a.Tutor,
                              r => r.MapFrom(r => new TutorDTO()
