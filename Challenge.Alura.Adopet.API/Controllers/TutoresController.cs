@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Challenge.Alura.Adopet.API.Data;
+﻿using Challenge.Alura.Adopet.API.Data;
 using Challenge.Alura.Adopet.API.Dominio;
+using Challenge.Alura.Adopet.API.DTO;
+using Challenge.Alura.Adopet.API.Service.Interface;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.JsonPatch;
-using Challenge.Alura.Adopet.API.Service.Interface;
-using Challenge.Alura.Adopet.API.Service;
-using Challenge.Alura.Adopet.API.DTO;
 
 namespace Challenge.Alura.Adopet.API.Controllers
 {

@@ -8,12 +8,9 @@ namespace Challenge.Alura.Adopet.API.DTO
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A nome do abrigo é obrigatório")]
-        public string? Nome { get; set; }
-        [JsonIgnore]
-        public int EnderecoId { get; set; }
-        [JsonIgnore]
+        public string? Nome { get; set; }       
+        public int EnderecoId { get; set; }       
         public EnderecoDTO? Endereco { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<PetDTO>? Pets { get; set; }
+        public ICollection<PetDTO>? Pets { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Challenge.Alura.Adopet.API.Data;
+﻿using Challenge.Alura.Adopet.API.Data;
 using Challenge.Alura.Adopet.API.Dominio;
+using Challenge.Alura.Adopet.API.DTO;
+using Challenge.Alura.Adopet.API.Service.Interface;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace Challenge.Alura.Adopet.API.Controllers
 {
@@ -12,47 +14,36 @@ namespace Challenge.Alura.Adopet.API.Controllers
     public class PetsController : ControllerBase
     {
         private readonly AdoPetContext _context;
+        private readonly IPetService _petService;
 
-        public PetsController(AdoPetContext context)
+        public PetsController(AdoPetContext context, IPetService tutorService)
         {
             _context = context;
+            _petService = tutorService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
+        public async Task<ActionResult<IEnumerable<PetDTO>>> GetPets()
         {
-            var pets = await this._context.Pets.Include(x=>x.Tutor).ToArrayAsync();
 
-            if (pets == null)
-            {
-                return this.NotFound();
-            }
-
-            return pets;
+            return await _petService.BuscaTodosAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pet>> GetPet(int id)
+        public async Task<ActionResult<PetDTO>> GetPet(int id)
         {
-            var _pet = await this._context.Pets.FirstAsync(a => a.Id == id);
 
-            if (_pet == null)
-            {
-                return this.NotFound();
-            }
-
-            return _pet;
+            return await _petService.BuscaPorIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pet>> PostPet(Pet Pet)
+        public async Task<ActionResult<PetDTO>> PostPet(PetDTO pet)
         {
             try
             {
-                await this._context.Pets.AddAsync(Pet);
-                await this._context.SaveChangesAsync();
+                await _petService.CriarAsync(pet);
 
-                return this.CreatedAtAction("GetPet", new { id = Pet.Id }, Pet);
+                return this.CreatedAtAction("GetPet", new { id = pet.Id }, pet);
             }
             catch (ValidationException e)
             {
@@ -61,17 +52,17 @@ namespace Challenge.Alura.Adopet.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Pet>> DeletePet(int id)
+        public async Task<ActionResult<PetDTO>> DeletePet(int id)
         {
-            var _pet = await this._context.Pets.FirstOrDefaultAsync(a => a.Id == id);
+            var _pet = _petService.BuscaPorIdAsync(id);
             if (_pet is null)
             {
                 return this.NotFound("Pet não encontrado na base de dados.");
             }
+
             try
             {
-                this._context.Pets.Remove(_pet);
-                await this._context.SaveChangesAsync();
+                var result = await _petService.DeletaAsync(_pet.Result);
 
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
@@ -79,9 +70,9 @@ namespace Challenge.Alura.Adopet.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Pet>> PutPet(int id, Pet pet)
+        public async Task<ActionResult<PetDTO>> PutPet(int id, PetDTO pet)
         {
-            var _pet = await this._context.Pets.FirstOrDefaultAsync(a => a.Id == id);
+            var _pet = await _petService.BuscaPorIdAsync(id);
             if (_pet is null)
             {
                 return this.NotFound("Pet não encontrado na base de dados para atualização.");
@@ -90,21 +81,8 @@ namespace Challenge.Alura.Adopet.API.Controllers
             try
             {
                 //Coloco o objeto recuperado em modo de `modificação`.
-                _context.Entry(_pet).State = EntityState.Modified;
+                await _petService.AlteraAsync(pet);
 
-                // Atualizo os campos do objeto com as novas informações.
-                _pet.Nome = pet.Nome;
-                _pet.Descricao = pet.Descricao;
-                _pet.Porte = pet.Porte;
-                _pet.TutorId = pet.TutorId;
-                _pet.Tutor=pet.Tutor;
-
-
-                //Atualizo o objeto no contexto.
-                this._context.Pets.Update(_pet);
-
-                //Salvo as alterações.
-                await this._context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

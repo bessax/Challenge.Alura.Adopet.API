@@ -1,5 +1,4 @@
-﻿using Challenge.Alura.Adopet.API.Dominio;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Challenge.Alura.Adopet.API.DTO

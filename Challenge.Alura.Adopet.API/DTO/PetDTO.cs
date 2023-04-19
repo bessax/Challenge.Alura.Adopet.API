@@ -13,11 +13,9 @@ namespace Challenge.Alura.Adopet.API.DTO
         [Required(ErrorMessage = "A descrição do animal é obrigatório")]
         public string? Descricao { get; set; }
         [Required(ErrorMessage = "O Id do Tutor é obrigatório")]
-        public int TutorId { get; set; }
-        [JsonIgnore]
+        public int TutorId { get; set; }    
         public TutorDTO? Tutor { get; set; }    
-        public int AbrigoId { get; set; }
-        [JsonIgnore]
+        public int AbrigoId { get; set; }      
         public AbrigoDTO? Abrigo { get; set; }
     }
 }

@@ -20,13 +20,13 @@ namespace Challenge.Alura.Adopet.API.Repository
 
         public async Task<Endereco> BuscaPorIdAsync(int id)
         {
-            return await _repository.Enderecos.Include(a => a.Abrigo).FirstAsync(a => a.Id == id);
+            return await _repository.Enderecos.FirstAsync(a => a.Id == id);
         }
 
         public async Task<List<Endereco>> BuscaTodosAsync()
         {
-            return await _repository.Enderecos.Include(a => a.Abrigo).Include(b => b.Abrigo)
-                  .ToListAsync();
+            return await _repository.Enderecos.ToListAsync();
+                 
         }
 
         public async Task CriarAsync(Endereco obj)
