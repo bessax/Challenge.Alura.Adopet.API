@@ -6,6 +6,7 @@ using Challenge.Alura.Adopet.API.Repository;
 using Challenge.Alura.Adopet.API.Repository.Interface;
 using Challenge.Alura.Adopet.API.Service;
 using Challenge.Alura.Adopet.API.Service.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<AdoPetContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AdoPetContext>();
+
 //Repositorys
 builder.Services.AddScoped<IRepository<Tutor>,TutorRepository>();
 builder.Services.AddScoped<IRepository<Pet>, PetRepository>();
@@ -31,8 +33,12 @@ builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IAbrigoService, AbrigoService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+        .AddEntityFrameworkStores<AdoPetContext>()
+        .AddDefaultTokenProviders();
+
 builder.Services.AddControllers().AddNewtonsoftJson();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

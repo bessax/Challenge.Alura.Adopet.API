@@ -36,7 +36,7 @@ namespace Challenge.Alura.Adopet.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Tutor>> PostTutor(TutorDTO tutor)
+        public async Task<ActionResult<TutorDTO>> PostTutor(TutorDTO tutor)
         {
             try
             {

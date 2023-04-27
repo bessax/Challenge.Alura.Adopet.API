@@ -1,9 +1,10 @@
 ﻿using Challenge.Alura.Adopet.API.Dominio;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Alura.Adopet.API.Data
 {
-    public class AdoPetContext:DbContext
+    public class AdoPetContext:IdentityDbContext
     {
         public AdoPetContext(DbContextOptions<AdoPetContext> options)
             :base(options)
@@ -18,6 +19,7 @@ namespace Challenge.Alura.Adopet.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdoPetContext).Assembly);
         }
 
     }
